@@ -1,46 +1,59 @@
 #include <stdio.h>
 #include "user.h"
 
-int main() {
+int main()
+{
     int opcao;
 
-    while (1) {
-        printf("\n--- Cadastro de Usuários ---\n");
-        printf("1. Cadastrar usuário\n");
-        printf("2. Login\n");
-        printf("3. Alterar senha\n");
-        printf("0. Sair\n");
-        printf("Escolha uma opção: ");
+    // Modularizar - Menu (Navegação Login, Navegação Promoter, Navegação Cliente)
+
+    while (1)
+    {
+        printf("\n-------------------- Showbuy --------------------\n");
+        printf("Ola! Seja Bem-vindo! Por favor, escolha a opçao desejada:\n");
+        printf("0. Login\n");
+        printf("1. Cadastro\n");
+        printf("2. Alterar senha\n");
+        printf("3. Sair\n");
         scanf("%d", &opcao);
         getchar(); // Limpa o buffer do stdin após o scanf
+        printf("-------------------- xxxxxx --------------------\n");
 
-        switch (opcao) {
-            case 1:
-                cadastrarUsuario();
-                break;
+        switch (opcao)
+        {
 
-            case 2:
-                if (autenticarUsuario()) {
-                    printf("Bem-vindo ao sistema!\n");
-                } else {
-                    printf("Falha no login. Tente novamente.\n");
-                }
-                break;
+        case 0:
+            if (autenticarUsuario())
+            {
+                printf("\nBem-vindo ao sistema!\n");
+            }
+            else
+            {
+                printf("\nFalha no login. Tente novamente.\n");
+            }
+            break;
 
-            case 3:
-                if (alterarSenha()) {
-                    printf("Senha alterada com sucesso.\n");
-                } else {
-                    printf("Erro ao alterar a senha. CPF não encontrado.\n");
-                }
-                break;
+        case 1:
+            cadastrarUsuario();
+            break;
 
-            case 0:
-                printf("Programa encerrado.\n");
-                return 0;
+        case 2:
+            if (alterarSenha())
+            {
+                printf("\nSenha alterada com sucesso.\n");
+            }
+            else
+            {
+                printf("\nErro ao alterar a senha. CPF não encontrado.\n");
+            }
+            break;
 
-            default:
-                printf("Opção inválida. Tente novamente.\n");
+        case 3:
+            printf("\nO Programa foi encerrado.\n");
+            return 0;
+
+        default:
+            printf("\nOpção inválida. Tente novamente.\n");
         }
     }
 }

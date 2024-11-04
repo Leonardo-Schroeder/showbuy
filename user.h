@@ -24,5 +24,6 @@ void salvarUsuario(Usuario usuario);
 int autenticarUsuario();
 int alterarSenha();
 Usuario* buscarUsuarioPorCPF(const char *cpf);
+void trim(char *str);
 
 #endif

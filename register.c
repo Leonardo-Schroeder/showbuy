@@ -114,7 +114,7 @@ void salvarUsuario(Usuario usuario)
         return;
     }
 
-    fprintf(file, "Nome: %s | Idade: %s | CPF: %d | Email: %s | Senha: %s | Role: %d \n", usuario.nomeCompleto, usuario.cpf, usuario.idade, usuario.email, usuario.senha, usuario.role);
+    fprintf(file, "Nome: %s | Idade: %d | CPF: %s | Email: %s | Senha: %s | Role: %d \n", usuario.nomeCompleto, usuario.idade, usuario.cpf, usuario.email, usuario.senha, usuario.role);
 
     fclose(file);
 

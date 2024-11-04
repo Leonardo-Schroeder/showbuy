@@ -51,7 +51,7 @@ void cadastrarUsuario() {
         usuario.cpf[strcspn(usuario.cpf, "\n")] = 0;
 
         if (!validarCPF(usuario.cpf)) {
-            printf("CPF inválido. Deve conter 11 dígitos numéricos.\n");
+            perror("CPF inválido. Deve conter 11 dígitos numéricos.\n");
         }
 
     } while (!validarCPF(usuario.cpf));
@@ -76,7 +76,7 @@ void cadastrarUsuario() {
         usuario.senha[strcspn(usuario.senha, "\n")] = 0;
 
         if (!validarSenha(usuario.senha)) {
-            printf("Senha inválida. A senha deve ter ao menos 8 caracteres.\n");
+            perror("Senha inválida. A senha deve ter ao menos 8 caracteres.\n");
         }
     } while (!validarSenha(usuario.senha));
 
@@ -84,14 +84,14 @@ void cadastrarUsuario() {
     printf("Você é um Gestor de Eventos ou Cliente?\n");
     printf("1 - Gestor | 2 - Cliente (Digite o número): ");
     while (scanf("%d", &usuario.role) != 1 || usuario.role < 1 || usuario.role > 2) {
-        printf("Opção inválida. Digite 1 para Gestor ou 2 para Cliente:\n");
+        perror("Opção inválida. Digite 1 para Gestor ou 2 para Cliente:\n");
         while (getchar() != '\n'); 
     }
 
     //*Idade
     printf("Para finalizar, digite a idade: ");
     while (scanf("%d", &usuario.idade) != 1 || usuario.idade <= 0) {
-        printf("Idade inválida. Digite um valor positivo:\n");
+        perror("Idade inválida. Digite um valor positivo:\n");
         while (getchar() != '\n');  
     }
 
@@ -110,7 +110,7 @@ void salvarUsuario(Usuario usuario)
     if (file == NULL)
     {
         printf("Ops... Não foi possível realizar seu cadastro.\n");
-        printf("Erro ao abrir o arquivo para escrita.\n");
+        perror("Erro ao abrir o arquivo para escrita.\n");
         return;
     }
 

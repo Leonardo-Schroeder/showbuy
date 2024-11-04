@@ -21,5 +21,8 @@ int validarEmail(const char *email);
 int validarSenha(const char *senha);
 void cadastrarUsuario();
 void salvarUsuario(Usuario usuario);
+int autenticarUsuario();
+int alterarSenha();
+Usuario* buscarUsuarioPorCPF(const char *cpf);
 
 #endif

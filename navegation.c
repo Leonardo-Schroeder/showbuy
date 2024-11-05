@@ -25,7 +25,7 @@ void menuGestor(int *opcao)
     printf("2. Atualizar Show\n");
     printf("3. Remover Show\n");
     printf("4. Todos os Shows\n");
-    printf("6. Fechar\n");
+    printf("5. Fechar\n");
     scanf("%d", opcao);
     printf("-------------------- xxxxxx --------------------\n");
 }

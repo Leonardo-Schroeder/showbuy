@@ -32,7 +32,7 @@ int main()
                         switch (opcaoUser)
                         {
                         case 0:
-                            
+                            mostrarMeuShow();
                             break;
                         case 1:
                             cadastrarShow(); // Função para cadastrar um show
@@ -50,10 +50,9 @@ int main()
                             removerShow(idRemover); // Função para remover um show
                             break;
                         case 4:
+                            mostrarTodosShows();
                             break;
                         case 5:
-                            break;
-                        case 6:
                             printf("\nO Programa foi encerrado, volte sempre!\n");
                             return 0;
                         default:

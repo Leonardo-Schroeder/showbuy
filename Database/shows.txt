@@ -1,1 +1,2 @@
-ID: 0 | Nome: Bruninho | Preço: 100.00 | Ingressos: 1200 | CPF: 45632202801 | Ativo: 1
+ID: 0 | Nome: Bruno Mars   | Data: 20/07/2005   | Preço: 150.00 | Ingressos: 1500 | CPF: 45632202801 | Ativo: 1
+ID: 1 | Nome: Bruno & Marrone       | Data: 20/10/12       | Preço: 15.00 | Ingressos: 1000 | CPF: 28915628915 | Ativo: 1

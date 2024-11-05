@@ -20,5 +20,7 @@ int obterMaiorId();
 void cadastrarShow();
 void removerShow(int id);
 void atualizarShow(int id);
+void mostrarTodosShows();
+void mostrarMeuShow();
 
 #endif

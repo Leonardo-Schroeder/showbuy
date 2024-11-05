@@ -3,6 +3,7 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "user.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "shows.h": "c"
     }
 }

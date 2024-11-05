@@ -2,6 +2,7 @@
 #define shows
 
 #define tamanhoMaximoNome 100
+#define tamanhoMaximoCPF 15
 
 typedef struct
 {
@@ -9,6 +10,7 @@ typedef struct
     char nomeShow[tamanhoMaximoNome];
     float preco;
     int ingressosDisponiveis;
+    char cpfResponsavel[tamanhoMaximoCPF];
     int ativo;
 } Show;
 

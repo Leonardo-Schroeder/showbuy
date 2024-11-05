@@ -35,19 +35,19 @@ int main()
                             
                             break;
                         case 1:
-                            cadastrarShow(); // Função para cadastrar um evento
+                            cadastrarShow(); // Função para cadastrar um show
                             break;
                         case 2:
                             printf("Digite o ID do evento para atualizar: ");
                             int idAtualizar;
                             scanf("%d", &idAtualizar);
-                            atualizarShow(idAtualizar); // Função para atualizar um evento
+                            atualizarShow(idAtualizar); // Função para atualizar um show
                             break;
                         case 3:
                             printf("Digite o ID do evento para remover: ");
                             int idRemover;
                             scanf("%d", &idRemover);
-                            removerShow(idRemover); // Função para remover um evento
+                            removerShow(idRemover); // Função para remover um show
                             break;
                         case 4:
                             break;

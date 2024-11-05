@@ -17,6 +17,7 @@ void menuInicial(int *opcao)
 
 void menuGestor(int *opcao)
 {
+    trim(userLoggedIn.nomeCompleto);
     printf("\n-------------------- Showbuy --------------------\n");
     printf("Ola, %s! Seja Bem-vindo! Por favor, escolha a opçao desejada:\n", userLoggedIn.nomeCompleto);
     printf("0. Consultar Eventos\n");
@@ -27,6 +28,5 @@ void menuGestor(int *opcao)
     printf("5. Consultar Eventos\n");
     printf("6. Fechar\n");
     scanf("%d", opcao);
-    getchar(); // Limpa o buffer do stdin após o scanf
     printf("-------------------- xxxxxx --------------------\n");
 }

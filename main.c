@@ -1,46 +1,97 @@
 #include <stdio.h>
+#include <string.h>
 #include "user.h"
+#include "navegation.h"
+#include "shows.h"
 
-int main() {
-    int opcao;
+int main()
+{
+    int opcao, opcaoUser;
 
-    while (1) {
-        printf("\n--- Cadastro de Usuários ---\n");
-        printf("1. Cadastrar usuário\n");
-        printf("2. Login\n");
-        printf("3. Alterar senha\n");
-        printf("0. Sair\n");
-        printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
-        getchar(); // Limpa o buffer do stdin após o scanf
+    // Modularizar - Menu (Navegação Login, Navegação Promoter, Navegação Cliente)
 
-        switch (opcao) {
-            case 1:
-                cadastrarUsuario();
-                break;
+    while (1)
+    {
+        menuInicial(&opcao);
 
-            case 2:
-                if (autenticarUsuario()) {
-                    printf("Bem-vindo ao sistema!\n");
-                } else {
-                    printf("Falha no login. Tente novamente.\n");
+        switch (opcao)
+        {
+        case 0:
+            if (autenticarUsuario())
+            {
+                char nome[strlen(userLoggedIn.nomeCompleto)];
+                strcpy(nome, userLoggedIn.nomeCompleto);
+                trim(nome);
+                printf("\n%s, bem-vindo ao sistema!\n", nome);
+
+                if (userLoggedIn.role == 1)
+                {
+                    while (1)
+                    {
+                        menuGestor(&opcaoUser);
+                        switch (opcaoUser)
+                        {
+                        case 0:
+                            mostrarMeuShow();
+                            break;
+                        case 1:
+                            cadastrarShow(); // Função para cadastrar um show
+                            break;
+                        case 2:
+                            printf("Digite o ID do evento para atualizar: ");
+                            int idAtualizar;
+                            scanf("%d", &idAtualizar);
+                            atualizarShow(idAtualizar); // Função para atualizar um show
+                            break;
+                        case 3:
+                            printf("Digite o ID do evento para remover: ");
+                            int idRemover;
+                            scanf("%d", &idRemover);
+                            removerShow(idRemover); // Função para remover um show
+                            break;
+                        case 4:
+                            mostrarTodosShows();
+                            break;
+                        case 5:
+                            printf("\nO Programa foi encerrado, volte sempre!\n");
+                            return 0;
+                        default:
+                            printf("\nOpção inválida. Tente novamente.\n");
+                            break;
+                        }
+                    }
                 }
-                break;
-
-            case 3:
-                if (alterarSenha()) {
-                    printf("Senha alterada com sucesso.\n");
-                } else {
-                    printf("Erro ao alterar a senha. CPF não encontrado.\n");
+                else if (userLoggedIn.role == 2)
+                {
+                    /* code */
                 }
-                break;
+            }
+            else
+            {
+                printf("\nFalha no login. Tente novamente.\n");
+            }
+            break;
+        case 1:
+            cadastrarUsuario();
+            break;
 
-            case 0:
-                printf("Programa encerrado.\n");
-                return 0;
+        case 2:
+            if (alterarSenha())
+            {
+                printf("\nSenha alterada com sucesso.\n");
+            }
+            else
+            {
+                printf("\nErro ao alterar a senha. CPF não encontrado.\n");
+            }
+            break;
 
-            default:
-                printf("Opção inválida. Tente novamente.\n");
+        case 3:
+            printf("\nO Programa foi encerrado.\n");
+            return 0;
+
+        default:
+            printf("\nOpção inválida. Tente novamente.\n");
         }
     }
 }

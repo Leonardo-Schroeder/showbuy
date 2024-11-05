@@ -1,2 +1,3 @@
 Nome: a | Idade: 19 | CPF: 12345678910 | Email: le@g.com | Senha: 1234567 | Role: 1
 Nome: Pedro Coelho Terossi | Idade: 19 | CPF: 28915628915 | Email: p@g.com | Senha: 123456 | Role: 1
+Nome: Leonardo | Idade: 19 | CPF: 45632202801 | Email: le@g.com | Senha: 123456 | Role: 1 

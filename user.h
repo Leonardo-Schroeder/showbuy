@@ -16,6 +16,8 @@ typedef struct
     int role;
 } Usuario;
 
+Usuario userLoggedIn;
+
 int validarCPF(const char *cpf);
 int validarEmail(const char *email);
 int validarSenha(const char *senha);

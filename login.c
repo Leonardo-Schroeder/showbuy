@@ -9,24 +9,31 @@
 // Ajeitar essas funções trabalhar para que elas fiquem mais humanizadas além de tornar o código entendível
 
 // Função para remover espaços em branco extras nas bordas da string -- Ajeitar
-void trim(char *str) {
+void trim(char *str)
+{
     // Remove espaços à direita
     int len = strlen(str);
-    while (len > 0 && isspace((unsigned char)str[len - 1])) {
+    while (len > 0 && isspace((unsigned char)str[len - 1]))
+    {
         str[--len] = '\0';
     }
 
     // Remove espaços à esquerda
     char *start = str;
-    while (*start && isspace((unsigned char)*start)) {
+    while (*start && isspace((unsigned char)*start))
+    {
         start++;
     }
-    if (start != str) {
+    if (start != str)
+    {
         memmove(str, start, strlen(start) + 1);
     }
 }
 
-int autenticarUsuario() {
+int autenticarUsuario()
+{
+    printf("\n-------------------- Login --------------------\n");
+
     char identificador[tamanhoMaximoCPF];
     char senha[tamanhoMaximoSenha];
 
@@ -41,15 +48,18 @@ int autenticarUsuario() {
     trim(senha);
 
     FILE *file = fopen(CAMINHO_ARQUIVO_USER, "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         perror("Erro ao abrir o arquivo de usuários.");
         return 0;
     }
 
     char linha[512];
     int autenticado = 0;
+    int role;
 
-    while (fgets(linha, sizeof(linha), file) != NULL) {
+    while (fgets(linha, sizeof(linha), file) != NULL)
+    {
         Usuario usuario;
 
         // Removendo o caractere de nova linha do final da linha lida
@@ -57,8 +67,9 @@ int autenticarUsuario() {
 
         // Tentando ler a linha n0o formato especificado
         if (sscanf(linha, "Nome: %[^|]| Idade: %d | CPF: %[^|]| Email: %[^|]| Senha: %[^|]| Role: %d",
-                   usuario.nomeCompleto, &usuario.idade, usuario.cpf, usuario.email, usuario.senha, &usuario.role) == 6) {
-            
+                   usuario.nomeCompleto, &usuario.idade, usuario.cpf, usuario.email, usuario.senha, &usuario.role) == 6)
+        {
+
             // Remover espaços extras das strings do usuário
             trim(usuario.cpf);
             trim(usuario.email);
@@ -66,12 +77,17 @@ int autenticarUsuario() {
 
             // Comparando CPF/Email e senha para autenticação
             if ((strcmp(usuario.cpf, identificador) == 0 || strcmp(usuario.email, identificador) == 0) &&
-                strcmp(usuario.senha, senha) == 0) {
+                strcmp(usuario.senha, senha) == 0)
+            {
                 printf("Login realizado com sucesso!\n");
+                userLoggedIn = usuario;
+                role = usuario.role;
                 autenticado = 1;
                 break;
             }
-        } else {
+        }
+        else
+        {
             // Mensagem de erro de debug caso a linha não tenha sido lida corretamente
             printf("Erro ao ler a linha: %s\n", linha);
         }
@@ -79,16 +95,21 @@ int autenticarUsuario() {
 
     fclose(file);
 
-    if (!autenticado) {
+    if (!autenticado)
+    {
         printf("Identificador ou senha incorretos.\n");
     }
 
-    return autenticado;
+    printf("\n-------------------- xxxxx --------------------\n");
+
+   return autenticado;
 }
 
 // Função para alterar a senha de um usuário
 int alterarSenha()
 {
+    printf("\n-------------------- Alterar Senha --------------------\n");
+
     char cpf[tamanhoMaximoCPF];
     char novaSenha[tamanhoMaximoSenha];
 
@@ -158,6 +179,8 @@ int alterarSenha()
     {
         printf("CPF não encontrado.\n");
     }
+
+    printf("\n-------------------- xxxxxxxxxxxxx --------------------\n");
 
     return alterado;
 }

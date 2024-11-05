@@ -1,38 +1,77 @@
 #include <stdio.h>
+#include <string.h>
 #include "user.h"
+#include "navegation.h"
+#include "shows.h"
 
 int main()
 {
-    int opcao;
+    int opcao, opcaoUser;
 
     // Modularizar - Menu (Navegação Login, Navegação Promoter, Navegação Cliente)
 
     while (1)
     {
-        printf("\n-------------------- Showbuy --------------------\n");
-        printf("Ola! Seja Bem-vindo! Por favor, escolha a opçao desejada:\n");
-        printf("0. Login\n");
-        printf("1. Cadastro\n");
-        printf("2. Alterar senha\n");
-        printf("3. Sair\n");
-        scanf("%d", &opcao);
-        getchar(); // Limpa o buffer do stdin após o scanf
-        printf("-------------------- xxxxxx --------------------\n");
+        menuInicial(&opcao);
 
         switch (opcao)
         {
-
         case 0:
             if (autenticarUsuario())
             {
-                printf("\nBem-vindo ao sistema!\n");
+                char nome[strlen(userLoggedIn.nomeCompleto)];
+                strcpy(nome, userLoggedIn.nomeCompleto);
+                trim(nome);
+                printf("\n%s, bem-vindo ao sistema!\n", nome);
+
+                if (userLoggedIn.role == 1)
+                {
+                    while (1)
+                    {
+                        menuGestor(&opcaoUser);
+                        switch (opcaoUser)
+                        {
+                        case 0:
+                            
+                            break;
+                        case 1:
+                            cadastrarShow(); // Função para cadastrar um evento
+                            break;
+                        case 2:
+                            printf("Digite o ID do evento para atualizar: ");
+                            int idAtualizar;
+                            scanf("%d", &idAtualizar);
+                            atualizarShow(idAtualizar); // Função para atualizar um evento
+                            break;
+                        case 3:
+                            printf("Digite o ID do evento para remover: ");
+                            int idRemover;
+                            scanf("%d", &idRemover);
+                            removerShow(idRemover); // Função para remover um evento
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            printf("\nO Programa foi encerrado, volte sempre!\n");
+                            return 0;
+                        default:
+                            printf("\nOpção inválida. Tente novamente.\n");
+                            break;
+                        }
+                    }
+                }
+                else if (userLoggedIn.role == 2)
+                {
+                    /* code */
+                }
             }
             else
             {
                 printf("\nFalha no login. Tente novamente.\n");
             }
             break;
-
         case 1:
             cadastrarUsuario();
             break;

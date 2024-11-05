@@ -56,6 +56,7 @@ int autenticarUsuario()
 
     char linha[512];
     int autenticado = 0;
+    int role;
 
     while (fgets(linha, sizeof(linha), file) != NULL)
     {
@@ -79,6 +80,8 @@ int autenticarUsuario()
                 strcmp(usuario.senha, senha) == 0)
             {
                 printf("Login realizado com sucesso!\n");
+                userLoggedIn = usuario;
+                role = usuario.role;
                 autenticado = 1;
                 break;
             }
@@ -99,7 +102,7 @@ int autenticarUsuario()
 
     printf("\n-------------------- xxxxx --------------------\n");
 
-    return autenticado;
+   return autenticado;
 }
 
 // Função para alterar a senha de um usuário

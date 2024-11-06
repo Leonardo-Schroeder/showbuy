@@ -1,1 +1,1 @@
-ID: 0 | Nome: a | Data: 1 | Preço: 12.00 | Ingressos: 11 | CPF: 45632202801 | Ativo: 1
+ID: 0 | Nome: a | Data: 1 | Preço: 12.00 | Ingressos: 10 | CPF: 45632202801 | Ativo: 1

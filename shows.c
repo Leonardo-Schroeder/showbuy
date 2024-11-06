@@ -109,7 +109,7 @@ void removerShow(int id)
             encontrado = 1;
             continue;
         }
-        
+
         trim(show.nomeShow);
         trim(show.data);
 
@@ -264,6 +264,9 @@ void mostrarMeuShow()
         // Verifica se o CPF do responsável corresponde ao CPF do usuário logado
         trim(show.cpfResponsavel);
         trim(userLoggedIn.cpf);
+        trim(show.nomeShow);
+        trim(show.data);
+        
         if (strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
             printf("ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | Ativo: %d\n",

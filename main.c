@@ -83,9 +83,12 @@ int main()
                             transferirIngresso();
                             break;
                         case 5:
+                            mostrarDetalhesShow();
+                            break;
+                        case 6:
                             return 0;
                         default:
-                            break;
+                            printf("\nOpção inválida. Tente novamente.\n");
                         }
                     }
                 }

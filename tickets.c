@@ -241,6 +241,21 @@ void reembolsarIngresso()
     }
 }
 
+int cpfExisteRecursivo(FILE *file, const char *cpf)
+{
+    char linha[tamanhoMaximoCPF];
+
+    if (fgets(linha, sizeof(linha), file) == NULL)
+        return 0; // CPF não encontrado
+
+    trim(linha);
+
+    if (strcmp(linha, cpf) == 0)
+        return 1; // CPF encontrado
+
+    return cpfExisteRecursivo(file, cpf); // Chamada recursiva para próxima linha
+}
+
 void transferirIngresso()
 {
     printf("Digite o ID do ingresso que deseja transferir: ");
@@ -251,6 +266,24 @@ void transferirIngresso()
     char novoCpf[tamanhoMaximoCPF];
     scanf("%s", novoCpf);
 
+    // Abrir o arquivo de usuários para verificar se o novo CPF existe
+    FILE *usuariosFile = fopen("./Database/users.txt", "r");
+    if (usuariosFile == NULL)
+    {
+        perror("Erro ao abrir o arquivo de usuários.\n");
+        return;
+    }
+
+    // Validar se o CPF do novo comprador existe
+    if (!cpfExisteRecursivo(usuariosFile, novoCpf))
+    {
+        fclose(usuariosFile);
+        printf("CPF %s não está registrado. Transferência cancelada.\n", novoCpf);
+        return;
+    }
+
+    fclose(usuariosFile);
+
     FILE *file = fopen("./Database/tickets.txt", "r");
     FILE *tempFile = fopen("./Database/temp.txt", "w");
     Ingresso ingresso;
@@ -258,11 +291,11 @@ void transferirIngresso()
 
     if (file == NULL || tempFile == NULL)
     {
-        perror("Erro ao abrir o arquivo.\n");
+        perror("Erro ao abrir o arquivo de ingressos.\n");
         return;
     }
 
-    while (fscanf(file, "ID: %d | ShowID : %d | CPF: %s\n",
+    while (fscanf(file, "ID: %d | ShowID: %d | CPF: %s\n",
                   &ingresso.id, &ingresso.idShow, ingresso.cpfComprador) != EOF)
     {
         if (ingresso.id == idIngresso && strcmp(ingresso.cpfComprador, userLoggedIn.cpf) == 0)
@@ -271,6 +304,7 @@ void transferirIngresso()
             strcpy(ingresso.cpfComprador, novoCpf);
         }
 
+        trim(ingresso.cpfComprador);
         fprintf(tempFile, "ID: %d | ShowID: %d | CPF: %s\n",
                 ingresso.id, ingresso.idShow, ingresso.cpfComprador);
     }
@@ -325,6 +359,61 @@ void mostrarIngressoUsuario()
     }
 
     fclose(file);
+}
+
+void mostrarDetalhesShow()
+{
+    int idShow;
+    printf("Digite o ID do show para visualizar os detalhes: ");
+    scanf("%d", &idShow);
+
+    FILE *file = fopen("./Database/shows.txt", "r");
+    Show show;
+    char linha[256];
+    int encontrado = 0;
+
+    if (file == NULL)
+    {
+        perror("Erro ao abrir o arquivo.\n");
+        return;  // Retorna da função sem encerrar o programa
+    }
+
+    while (fgets(linha, sizeof(linha), file))
+    {
+        // Lê as informações do show a partir da linha do arquivo
+        if (sscanf(linha, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d",
+                   &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo) != 7)
+        {
+            fprintf(stderr, "Erro ao ler dados do show. A linha pode estar mal formatada.\n");
+            continue;  // Pula para a próxima linha, caso a leitura falhe
+        }
+
+        // Verifica se o ID do show corresponde ao fornecido
+        if (show.id == idShow)
+        {
+            encontrado = 1;
+            break; // Encontrou o show, não precisa continuar a busca
+        }
+    }
+
+    fclose(file);
+
+    if (encontrado)
+    {
+        // Exibe as informações do show
+        printf("\nDetalhes do Show:\n");
+        printf("ID: %d\n", show.id);
+        printf("Nome: %s\n", show.nomeShow);
+        printf("Data: %s\n", show.data);
+        printf("Preço: %.2f\n", show.preco);
+        printf("Ingressos Disponíveis: %d\n", show.ingressosDisponiveis);
+        printf("CPF do Responsável: %s\n", show.cpfResponsavel);
+        printf("Ativo: %s\n", show.ativo ? "Sim" : "Não");
+    }
+    else
+    {
+        printf("Show com ID %d não encontrado.\n", idShow);
+    }
 }
 
 void excluirTicketsPorShowRecursivo(FILE *file, FILE *tempFile, int idShow)

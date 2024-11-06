@@ -27,7 +27,7 @@ void menuGestor(int *opcao)
     printf("4. Todos os Shows\n");
     printf("5. Fechar\n");
     scanf("%d", opcao);
-    //getchar();
+    // getchar();
     printf("-------------------- xxxxxx --------------------\n");
 }
 
@@ -41,7 +41,8 @@ void menuCliente(int *opcao)
     printf("2. Comprar Ingresso\n");
     printf("3. Reembolsar Ingresso\n");
     printf("4. Transferir Ingresso\n");
-    printf("5. Fechar\n");
+    printf("5. Detalhes Show\n");
+    printf("6. Fechar\n");
     scanf("%d", opcao);
     printf("-------------------- xxxxxx --------------------\n");
 }

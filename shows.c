@@ -3,6 +3,7 @@
 #include <string.h>
 #include "shows.h"
 #include "user.h"
+#include "tickets.h"
 
 int obterMaiorId()
 {
@@ -73,7 +74,7 @@ void cadastrarShow()
     trim(novoShow.nomeShow);
     trim(novoShow.cpfResponsavel);
     trim(novoShow.data);
-    
+
     fprintf(file, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
             novoShow.id, novoShow.nomeShow, novoShow.data, novoShow.preco, novoShow.ingressosDisponiveis, novoShow.cpfResponsavel, novoShow.ativo);
 
@@ -108,6 +109,9 @@ void removerShow(int id)
             encontrado = 1;
             continue;
         }
+        
+        trim(show.nomeShow);
+        trim(show.data);
 
         fprintf(tempFile, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                 show.id, show.nomeShow, show.data, show.preco, show.ingressosDisponiveis, show.cpfResponsavel, show.ativo);
@@ -121,6 +125,8 @@ void removerShow(int id)
         remove("./Database/shows.txt");
         rename("./Database/temp.txt", "./Database/shows.txt");
         printf("Show removido com sucesso!\n");
+
+        excluirTodosTicketsPorShow(id);
     }
     else
     {

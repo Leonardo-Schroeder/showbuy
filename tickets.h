@@ -16,5 +16,7 @@ void comprarIngresso();
 void transferirIngresso(); 
 void reembolsarIngresso();
 void mostrarIngressoUsuario();
+void excluirTodosTicketsPorShow(int idShow);
+void excluirTicketsPorShowRecursivo(FILE *file, FILE *tempFile, int idShow);
 
 #endif

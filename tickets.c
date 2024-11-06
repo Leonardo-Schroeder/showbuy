@@ -326,3 +326,59 @@ void mostrarIngressoUsuario()
 
     fclose(file);
 }
+
+void excluirTicketsPorShowRecursivo(FILE *file, FILE *tempFile, int idShow)
+{
+    Ingresso *ingresso = (Ingresso *)malloc(sizeof(Ingresso));
+
+    if (ingresso == NULL)
+    {
+        perror("Erro ao alocar memória para o ingresso.\n");
+        return;
+    }
+
+    // Lê um ingresso do arquivo
+    if (fscanf(file, "ID: %d | ShowID: %d | CPF: %s\n", &ingresso->id, &ingresso->idShow, ingresso->cpfComprador) == EOF)
+    {
+        // Fim do arquivo
+        free(ingresso);
+        return;
+    }
+
+    // Se o ingresso não pertence ao show excluído, grava no arquivo temporário
+    if (ingresso->idShow != idShow)
+    {
+        fprintf(tempFile, "ID: %d | ShowID: %d | CPF: %s\n",
+                ingresso->id, ingresso->idShow, ingresso->cpfComprador);
+    }
+
+    // Libera a memória do ingresso atual
+    free(ingresso);
+
+    // Chamada recursiva para o próximo ingresso
+    excluirTicketsPorShowRecursivo(file, tempFile, idShow);
+}
+
+void excluirTodosTicketsPorShow(int idShow)
+{
+    FILE *file = fopen("./Database/tickets.txt", "r");
+    FILE *tempFile = fopen("./Database/temp_tickets.txt", "w");
+
+    if (file == NULL || tempFile == NULL)
+    {
+        perror("Erro ao abrir o arquivo de tickets.\n");
+        return;
+    }
+
+    // Chamada inicial da função recursiva
+    excluirTicketsPorShowRecursivo(file, tempFile, idShow);
+
+    fclose(file);
+    fclose(tempFile);
+
+    // Substitui o arquivo original pelo temporário sem os ingressos do show excluído
+    remove("./Database/tickets.txt");
+    rename("./Database/temp_tickets.txt", "./Database/tickets.txt");
+
+    printf("Todos os tickets associados ao show com ID %d foram excluídos.\n", idShow);
+}

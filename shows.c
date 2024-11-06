@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "shows.h"
-#include "user.h"
-#include "tickets.h"
+#include "./lib/shows.h"
+#include "./lib/user.h"
+#include "./lib/tickets.h"
 
 int obterMaiorId()
 {
@@ -266,7 +266,7 @@ void mostrarMeuShow()
         trim(userLoggedIn.cpf);
         trim(show.nomeShow);
         trim(show.data);
-        
+
         if (strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
             printf("ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | Ativo: %d\n",

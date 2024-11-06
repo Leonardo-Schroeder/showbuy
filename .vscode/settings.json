@@ -5,6 +5,7 @@
         "user.h": "c",
         "string.h": "c",
         "shows.h": "c",
-        "tickets.h": "c"
+        "tickets.h": "c",
+        "navegation.h": "c"
     }
 }

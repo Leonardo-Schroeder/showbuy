@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "user.h"
+#include "./lib/user.h"
 
 void menuInicial(int *opcao)
 {

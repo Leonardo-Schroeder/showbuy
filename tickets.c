@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tickets.h"
-#include "user.h"
-#include "shows.h"
+#include "./lib/tickets.h"
+#include "./lib/user.h"
+#include "./lib/shows.h"
 
 int obterMaiorIdIngresso()
 {

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
-#include "user.h"
-#include "navegation.h"
-#include "shows.h"
-#include "tickets.h"
+#include "./lib/user.h"
+#include "./lib/navegation.h"
+#include "./lib/shows.h"
+#include "./lib/tickets.h"
 
 int main()
 {

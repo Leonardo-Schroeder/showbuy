@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "user.h"
+#include "./lib/user.h"
 
 #define CAMINHO_ARQUIVO_USER "./Database/users.txt"
 

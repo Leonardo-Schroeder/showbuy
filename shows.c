@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "shows.h"
-#include "user.h"
+#include "./lib/shows.h"
+#include "./lib/user.h"
+#include "./lib/tickets.h"
 
 int obterMaiorId()
 {
@@ -73,7 +74,7 @@ void cadastrarShow()
     trim(novoShow.nomeShow);
     trim(novoShow.cpfResponsavel);
     trim(novoShow.data);
-    
+
     fprintf(file, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
             novoShow.id, novoShow.nomeShow, novoShow.data, novoShow.preco, novoShow.ingressosDisponiveis, novoShow.cpfResponsavel, novoShow.ativo);
 
@@ -109,6 +110,9 @@ void removerShow(int id)
             continue;
         }
 
+        trim(show.nomeShow);
+        trim(show.data);
+
         fprintf(tempFile, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                 show.id, show.nomeShow, show.data, show.preco, show.ingressosDisponiveis, show.cpfResponsavel, show.ativo);
     }
@@ -121,6 +125,8 @@ void removerShow(int id)
         remove("./Database/shows.txt");
         rename("./Database/temp.txt", "./Database/shows.txt");
         printf("Show removido com sucesso!\n");
+
+        excluirTodosTicketsPorShow(id);
     }
     else
     {
@@ -258,6 +264,9 @@ void mostrarMeuShow()
         // Verifica se o CPF do responsável corresponde ao CPF do usuário logado
         trim(show.cpfResponsavel);
         trim(userLoggedIn.cpf);
+        trim(show.nomeShow);
+        trim(show.data);
+
         if (strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
             printf("ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | Ativo: %d\n",

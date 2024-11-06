@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "user.h"
+#include "./lib/user.h"
 
 int validarCPF(const char *cpf)
 {

@@ -5,7 +5,7 @@
 void menuInicial(int *opcao)
 {
     printf("\n-------------------- Showbuy --------------------\n");
-    printf("Ola! Seja Bem-vindo! Por favor, escolha a opçao desejada:\n");
+    printf("Ola! Seja Bem-vindo! Por favor, escolha a opção desejada:\n");
     printf("0. Login\n");
     printf("1. Cadastro\n");
     printf("2. Alterar senha\n");
@@ -27,7 +27,6 @@ void menuGestor(int *opcao)
     printf("4. Todos os Shows\n");
     printf("5. Fechar\n");
     scanf("%d", opcao);
-    // getchar();
     printf("-------------------- xxxxxx --------------------\n");
 }
 

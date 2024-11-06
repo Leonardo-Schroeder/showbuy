@@ -4,11 +4,14 @@
 #include "./lib/navegation.h"
 #include "./lib/shows.h"
 #include "./lib/tickets.h"
+#include "locale.h"
 
 int main()
 {
     int opcao, opcaoUser;
+    setlocale(LC_ALL, "pt_BR.UTF-8");
 
+    // Menu de Login
     while (1)
     {
         menuInicial(&opcao);
@@ -23,6 +26,7 @@ int main()
                 trim(nome);
                 printf("\n%s, bem-vindo ao sistema!\n", nome);
 
+                // Separa os menus de Cliente / Gestor
                 if (userLoggedIn.role == 1)
                 {
                     while (1)
@@ -34,19 +38,14 @@ int main()
                             mostrarMeuShow();
                             break;
                         case 1:
-                            cadastrarShow(); // Função para cadastrar um show
+                            cadastrarShow();
                             break;
                         case 2:
-                            printf("Digite o ID do evento para atualizar: ");
-                            int idAtualizar;
-                            scanf("%d", &idAtualizar);
-                            atualizarShow(idAtualizar); // Função para atualizar um show
+    
+                            atualizarShow();
                             break;
                         case 3:
-                            printf("Digite o ID do evento para remover: ");
-                            int idRemover;
-                            scanf("%d", &idRemover);
-                            removerShow(idRemover); // Função para remover um show
+                            removerShow();
                             break;
                         case 4:
                             mostrarTodosShows();
@@ -55,7 +54,7 @@ int main()
                             printf("\nO Programa foi encerrado, volte sempre!\n");
                             return 0;
                         default:
-                            printf("\nOpção inválida. Tente novamente.\n");
+                            printf("\nOpção inválida. Tente novamente!\n");
                             break;
                         }
                     }
@@ -88,14 +87,14 @@ int main()
                         case 6:
                             return 0;
                         default:
-                            printf("\nOpção inválida. Tente novamente.\n");
+                            printf("\nOpção inválida. Tente novamente!\n");
                         }
                     }
                 }
             }
             else
             {
-                printf("\nFalha no login. Tente novamente.\n");
+                printf("\nFalha no login. Tente novamente!\n");
             }
             break;
         case 1:
@@ -108,7 +107,7 @@ int main()
             }
             else
             {
-                printf("\nErro ao alterar a senha. CPF não encontrado.\n");
+                printf("\nErro ao alterar a senha. O CPF não foi encontrado!\n");
             }
             break;
 
@@ -117,7 +116,7 @@ int main()
             return 0;
 
         default:
-            printf("\nOpção inválida. Tente novamente.\n");
+            printf("\nOpção inválida. Tente novamente!\n");
         }
     }
 }

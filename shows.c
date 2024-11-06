@@ -5,9 +5,13 @@
 #include "./lib/user.h"
 #include "./lib/tickets.h"
 
+#define CAMINHO_ARQUIVO_SHOWS "./Database/shows.txt"
+#define CAMINHO_ARQUIVO_TEMP "./Database/temp.txt"
+#define CAMINHO_ARQUIVO_TICKETS "./Database/tickets.txt"
+
 int obterMaiorId()
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
 
     if (file == NULL)
     {
@@ -15,11 +19,12 @@ int obterMaiorId()
     }
 
     Show show;
-    int maiorId = -1;
+    int maiorId = -1; // Começamos com -1 pois se nn houver nenhum elemento ele inicializa em 0
 
     while (fscanf(file, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                   &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo) != EOF)
     {
+        // Lógica para achar o maior ID
         if (show.id > maiorId)
         {
             maiorId = show.id;
@@ -33,7 +38,7 @@ int obterMaiorId()
 void cadastrarShow()
 {
     Show novoShow;
-    FILE *file = fopen("./Database/shows.txt", "a");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "a");
 
     if (file == NULL)
     {
@@ -42,7 +47,7 @@ void cadastrarShow()
     }
 
     novoShow.id = obterMaiorId();
-    getchar();
+    getchar(); // Buffer
 
     printf("Digite o nome do show: ");
     fgets(novoShow.nomeShow, tamanhoMaximoNome, stdin);
@@ -82,10 +87,10 @@ void cadastrarShow()
     printf("\nShow cadastrado com sucesso!\n");
 }
 
-void removerShow(int id)
+void removerShow()
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
-    FILE *tempFile = fopen("./Database/temp.txt", "w");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
+    FILE *tempFile = fopen(CAMINHO_ARQUIVO_TEMP, "w");
     Show show;
     char linha[256];
     int encontrado = 0;
@@ -96,17 +101,22 @@ void removerShow(int id)
         return;
     }
 
-    while (fgets(linha, sizeof(linha), file))
+    printf("Digite o ID do evento para remover: ");
+    int id;
+    scanf("%d", &id);
+
+    while (fgets(linha, sizeof(linha), file) != NULL)
     {
         sscanf(linha, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d",
                &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo);
 
+        // Retirando possíveis espaços para garantir que a comparação vai ser feita corretamente
         trim(show.cpfResponsavel);
         trim(userLoggedIn.cpf);
 
         if (show.id == id && strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
-            encontrado = 1;
+            encontrado = 1; // Show Encontrado & com autorização para excluir
             continue;
         }
 
@@ -120,6 +130,7 @@ void removerShow(int id)
     fclose(file);
     fclose(tempFile);
 
+    // Transforma o arquivo temporário no original
     if (encontrado)
     {
         remove("./Database/shows.txt");
@@ -135,10 +146,10 @@ void removerShow(int id)
     }
 }
 
-void atualizarShow(int id)
+void atualizarShow()
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
-    FILE *tempFile = fopen("./Database/temp.txt", "w");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
+    FILE *tempFile = fopen(CAMINHO_ARQUIVO_TEMP, "w");
     Show show;
     char linha[256];
     int encontrado = 0;
@@ -149,6 +160,10 @@ void atualizarShow(int id)
         return;
     }
 
+    printf("Digite o ID do evento para atualizar: ");
+    int id;
+    scanf("%d", &id);
+
     while (fgets(linha, sizeof(linha), file))
     {
         sscanf(linha, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d",
@@ -157,6 +172,7 @@ void atualizarShow(int id)
         trim(show.cpfResponsavel);
         trim(userLoggedIn.cpf);
 
+        // Verifica se o usuário tem autorização para atualizar o show
         if (show.id == id && strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
             encontrado = 1;
@@ -193,6 +209,7 @@ void atualizarShow(int id)
     fclose(file);
     fclose(tempFile);
 
+    // Transforma o arquivo temporário no original
     if (encontrado)
     {
         remove("./Database/shows.txt");
@@ -208,25 +225,25 @@ void atualizarShow(int id)
 
 void mostrarTodosShows()
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
     Show show;
 
     if (file == NULL)
     {
-        printf("Erro ao abrir o arquivo de shows.\n");
+        perror("Erro ao abrir o arquivo de shows.\n");
         return;
     }
 
     printf("\nTodos os Shows:\n");
 
-    while (1) // Loop infinito, sairá quando não conseguir mais ler
+    while (1) // Sai quando ele não conseguir mais ler
     {
         int result = fscanf(file, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                             &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo);
-        if (result == EOF) // Verifica se EOF foi alcançado
+        if (result == EOF)
             break;
 
-        if (result != 7) // Se não leu todos os 7 campos, houve um erro
+        if (result != 7) // Leu algo incorretamente
         {
             printf("Erro ao ler o arquivo. Verifique o formato das entradas.\n");
             break;
@@ -247,13 +264,13 @@ void mostrarTodosShows()
 
 void mostrarMeuShow()
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
     Show show;
     int encontrado = 0;
 
     if (file == NULL)
     {
-        printf("Erro ao abrir o arquivo de shows.\n");
+        perror("Erro ao abrir o arquivo de shows.\n");
         return;
     }
 
@@ -261,12 +278,12 @@ void mostrarMeuShow()
     while (fscanf(file, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                   &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo) != EOF)
     {
-        // Verifica se o CPF do responsável corresponde ao CPF do usuário logado
         trim(show.cpfResponsavel);
         trim(userLoggedIn.cpf);
         trim(show.nomeShow);
         trim(show.data);
 
+        // Validação para verificar se o user é responsavél pelo show
         if (strcmp(show.cpfResponsavel, userLoggedIn.cpf) == 0)
         {
             printf("ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | Ativo: %d\n",

@@ -4,7 +4,7 @@
 #define tamanhoMaximoNome 100
 #define tamanhoMaximoEmail 120
 #define tamanhoMaximoSenha 40
-#define tamanhoMaximoCPF 15
+#define tamanhoMaximoCPF 13
 
 typedef struct
 {
@@ -21,11 +21,11 @@ Usuario userLoggedIn;
 int validarCPF(const char *cpf);
 int validarEmail(const char *email);
 int validarSenha(const char *senha);
-void cadastrarUsuario();
-void salvarUsuario(Usuario usuario);
 int autenticarUsuario();
 int alterarSenha();
 Usuario* buscarUsuarioPorCPF(const char *cpf);
+void cadastrarUsuario();
+void salvarUsuario(Usuario usuario);
 void trim(char *str);
 
 #endif

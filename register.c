@@ -4,13 +4,17 @@
 #include <ctype.h>
 #include "./lib/user.h"
 
+#define CAMINHO_ARQUIVO_USER "./Database/users.txt"
+
 int validarCPF(const char *cpf)
 {
+    //Verifica se tem 11 digitos
     if (strlen(cpf) != 11)
     {
         return 0;
     }
 
+    //Verifica se são numéros
     for (int i = 0; i < 11; i++)
     {
         if (!isdigit(cpf[i]))
@@ -24,6 +28,7 @@ int validarCPF(const char *cpf)
 
 int validarEmail(const char *email)
 {
+    // Verifica se tem ao menos um @
     return (strchr(email, '@') != NULL);
 }
 
@@ -95,7 +100,7 @@ void cadastrarUsuario() {
         while (getchar() != '\n');  
     }
 
-    getchar();  // Limpa o buffer final
+    getchar();  // Limpa o buffer
 
     salvarUsuario(usuario);
 
@@ -105,7 +110,7 @@ void cadastrarUsuario() {
 void salvarUsuario(Usuario usuario)
 {
 
-    FILE *file = fopen("./Database/users.txt", "a");
+    FILE *file = fopen(CAMINHO_ARQUIVO_USER, "a");
 
     if (file == NULL)
     {

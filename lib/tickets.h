@@ -1,8 +1,7 @@
-#ifndef ingressos
-#define shingressosows
+#ifndef tickets
+#define tickets
 
-#define tamanhoMaximoCPF 15
-
+#define tamanhoMaximoCPF 13
 typedef struct
 {
     int id;
@@ -12,8 +11,8 @@ typedef struct
 
 int obterMaiorIdIngresso();
 int atualizarIngressosDisponiveis(int idShow, int incremento);
-void comprarIngresso();
 int cpfExisteRecursivo(FILE *file, const char *cpf);
+void comprarIngresso();
 void transferirIngresso(); 
 void reembolsarIngresso();
 void mostrarIngressoUsuario();

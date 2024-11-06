@@ -5,9 +5,17 @@
 #include "./lib/user.h"
 #include "./lib/shows.h"
 
+#define CAMINHO_ARQUIVO_USER "./Database/users.txt"
+#define CAMINHO_ARQUIVO_SHOWS "./Database/shows.txt"
+#define CAMINHO_ARQUIVO_TEMP "./Database/temp.txt"
+#define CAMINHO_ARQUIVO_TEMP_SHOW "./Database/temp_shows.txt"
+#define CAMINHO_ARQUIVO_TICKETS "./Database/tickets.txt"
+
+//Terminar de usar as váriavéis nas funções // validar função de transferir e arrumar a função de exibir detalhes do show / mostrar mais informações para quando a lista de shows for exibidas?
+
 int obterMaiorIdIngresso()
 {
-    FILE *file = fopen("./Database/tickets.txt", "r");
+    FILE *file = fopen(CAMINHO_ARQUIVO_TICKETS, "r");
 
     if (file == NULL)
     {
@@ -15,7 +23,7 @@ int obterMaiorIdIngresso()
     }
 
     Ingresso ingresso;
-    int maiorId = -1;
+    int maiorId = -1; // Mesma lógica do id do show
 
     while (fscanf(file, "ID: %d | ShowID: %d | CPF: %s\n",
                   &ingresso.id, &ingresso.idShow, ingresso.cpfComprador) != EOF)
@@ -28,14 +36,13 @@ int obterMaiorIdIngresso()
 
     fclose(file);
 
-    // Retorna o próximo ID disponível
     return maiorId + 1;
 }
 
 int atualizarIngressosDisponiveis(int idShow, int incremento)
 {
-    FILE *file = fopen("./Database/shows.txt", "r");
-    FILE *tempFile = fopen("./Database/temp_shows.txt", "w");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
+    FILE *tempFile = fopen(CAMINHO_ARQUIVO_TEMP_SHOW, "w");
     Show show;
     int atualizado = 0;
 
@@ -45,7 +52,6 @@ int atualizarIngressosDisponiveis(int idShow, int incremento)
         return 0;
     }
 
-    // Processa cada show no arquivo
     while (fscanf(file, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %14s | Ativo: %d\n",
                   &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo) != EOF)
     {
@@ -68,12 +74,10 @@ int atualizarIngressosDisponiveis(int idShow, int incremento)
             atualizado = 1;
         }
 
-        // Garante a integridade dos dados removendo caracteres indesejados
         trim(show.nomeShow);
         trim(show.data);
         trim(show.cpfResponsavel);
 
-        // Escreve os dados no arquivo temporário
         fprintf(tempFile, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                 show.id, show.nomeShow, show.data, show.preco, show.ingressosDisponiveis, show.cpfResponsavel, show.ativo);
     }
@@ -101,13 +105,11 @@ void comprarIngresso()
     int idShow;
     char confirmacaoPagamento;
 
-    // Prompt for the show ID
     printf("Digite o ID do show para o qual deseja comprar o ingresso: ");
     scanf("%d", &idShow);
 
-    // Open the shows file for reading and check if the show exists
-    FILE *file = fopen("./Database/shows.txt", "r");
-    FILE *tempFile = fopen("./Database/temp.txt", "w");
+    FILE *file = fopen(CAMINHO_ARQUIVO_SHOWS, "r");
+    FILE *tempFile = fopen(CAMINHO_ARQUIVO_TEMP, "w");
 
     if (file == NULL || tempFile == NULL)
     {
@@ -118,7 +120,6 @@ void comprarIngresso()
     Show show;
     int showEncontrado = 0;
 
-    // Search for the show and read its details
     while (fscanf(file, "ID: %d | Nome: %99[^|] | Data: %99[^|] | Preço: %f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                   &show.id, show.nomeShow, show.data, &show.preco, &show.ingressosDisponiveis, show.cpfResponsavel, &show.ativo) != EOF)
     {
@@ -126,12 +127,11 @@ void comprarIngresso()
         {
             showEncontrado = 1;
 
-            // Show purchase details to user for confirmation
             printf("\nShow: %s\nData: %s\nPreço: %.2f\nIngressos disponíveis: %d\n",
                    show.nomeShow, show.data, show.preco, show.ingressosDisponiveis);
 
             printf("Confirme o pagamento do valor de R$%.2f (S/N): ", show.preco);
-            getchar(); // Clear the newline from previous input
+            getchar();
             confirmacaoPagamento = getchar();
 
             if (confirmacaoPagamento == 'S' || confirmacaoPagamento == 's')
@@ -170,7 +170,6 @@ void comprarIngresso()
         trim(show.data);
         trim(show.cpfResponsavel);
 
-        // Write the show data to the temporary file, updating only the stock if confirmed
         fprintf(tempFile, "ID: %d | Nome: %s | Data: %s | Preço: %.2f | Ingressos: %d | CPF: %s | Ativo: %d\n",
                 show.id, show.nomeShow, show.data, show.preco, show.ingressosDisponiveis, show.cpfResponsavel, show.ativo);
     }
@@ -178,9 +177,9 @@ void comprarIngresso()
     fclose(file);
     fclose(tempFile);
 
+    // Salva as informações
     if (showEncontrado)
     {
-        // Overwrite original shows file
         remove("./Database/shows.txt");
         rename("./Database/temp.txt", "./Database/shows.txt");
     }
@@ -197,8 +196,8 @@ void reembolsarIngresso()
     int idIngresso;
     scanf("%d", &idIngresso);
 
-    FILE *file = fopen("./Database/tickets.txt", "r");
-    FILE *tempFile = fopen("./Database/temp.txt", "w");
+    FILE *file = fopen(CAMINHO_ARQUIVO_TICKETS, "r");
+    FILE *tempFile = fopen(CAMINHO_ARQUIVO_TEMP, "w");
     Ingresso ingresso;
     int encontrado = 0;
 

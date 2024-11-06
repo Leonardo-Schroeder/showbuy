@@ -3,7 +3,7 @@
 
 #define tamanhoMaximoNome 100
 #define tamanhoMaximoData 100
-#define tamanhoMaximoCPF 15
+#define tamanhoMaximoCPF 13
 
 typedef struct
 {
@@ -12,14 +12,15 @@ typedef struct
     char data[tamanhoMaximoData];
     float preco;
     int ingressosDisponiveis;
+    //Adicionar endereço
     char cpfResponsavel[tamanhoMaximoCPF];
     int ativo;
 } Show;
 
 int obterMaiorId();
 void cadastrarShow();
-void removerShow(int id);
-void atualizarShow(int id);
+void removerShow();
+void atualizarShow();
 void mostrarTodosShows();
 void mostrarMeuShow();
 

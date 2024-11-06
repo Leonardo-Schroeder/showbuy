@@ -6,9 +6,7 @@
 
 #define CAMINHO_ARQUIVO_USER "./Database/users.txt"
 
-// Ajeitar essas funções trabalhar para que elas fiquem mais humanizadas além de tornar o código entendível
-
-// Função para remover espaços em branco extras nas bordas da string -- Ajeitar
+// Função para remover espaços nas bordas das strings
 void trim(char *str)
 {
     // Remove espaços à direita
@@ -41,7 +39,7 @@ int autenticarUsuario()
     fgets(identificador, sizeof(identificador), stdin);
     identificador[strcspn(identificador, "\n")] = '\0'; // Remove o caractere de nova linha
     trim(identificador);
-
+    
     printf("Digite a senha: ");
     fgets(senha, sizeof(senha), stdin);
     senha[strcspn(senha, "\n")] = '\0'; // Remove o caractere de nova linha
@@ -62,15 +60,14 @@ int autenticarUsuario()
     {
         Usuario usuario;
 
-        // Removendo o caractere de nova linha do final da linha lida
+        // Removendo o caractere de nova linha da linha lida
         linha[strcspn(linha, "\n")] = '\0';
 
-        // Tentando ler a linha n0o formato especificado
         if (sscanf(linha, "Nome: %[^|]| Idade: %d | CPF: %[^|]| Email: %[^|]| Senha: %[^|]| Role: %d",
                    usuario.nomeCompleto, &usuario.idade, usuario.cpf, usuario.email, usuario.senha, &usuario.role) == 6)
         {
 
-            // Remover espaços extras das strings do usuário
+            // Remover espaços extras
             trim(usuario.cpf);
             trim(usuario.email);
             trim(usuario.senha);
@@ -88,7 +85,6 @@ int autenticarUsuario()
         }
         else
         {
-            // Mensagem de erro de debug caso a linha não tenha sido lida corretamente
             printf("Erro ao ler a linha: %s\n", linha);
         }
     }
@@ -105,7 +101,6 @@ int autenticarUsuario()
    return autenticado;
 }
 
-// Função para alterar a senha de um usuário
 int alterarSenha()
 {
     printf("\n-------------------- Alterar Senha --------------------\n");

@@ -3,12 +3,11 @@
 #include "user.h"
 #include "navegation.h"
 #include "shows.h"
+#include "tickets.h"
 
 int main()
 {
     int opcao, opcaoUser;
-
-    // Modularizar - Menu (Navegação Login, Navegação Promoter, Navegação Cliente)
 
     while (1)
     {
@@ -63,7 +62,32 @@ int main()
                 }
                 else if (userLoggedIn.role == 2)
                 {
-                    /* code */
+                    while (1)
+                    {
+                        menuCliente(&opcaoUser);
+                        switch (opcaoUser)
+                        {
+                        case 0:
+                            mostrarTodosShows();
+                            break;
+                        case 1:
+                            mostrarIngressoUsuario();
+                            break;
+                        case 2:
+                            comprarIngresso();
+                            break;
+                        case 3:
+                            reembolsarIngresso();
+                            break;
+                        case 4:
+                            transferirIngresso();
+                            break;
+                        case 5:
+                            return 0;
+                        default:
+                            break;
+                        }
+                    }
                 }
             }
             else
@@ -74,7 +98,6 @@ int main()
         case 1:
             cadastrarUsuario();
             break;
-
         case 2:
             if (alterarSenha())
             {

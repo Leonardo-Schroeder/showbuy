@@ -4,6 +4,7 @@
         "stdlib.h": "c",
         "user.h": "c",
         "string.h": "c",
-        "shows.h": "c"
+        "shows.h": "c",
+        "tickets.h": "c"
     }
 }
